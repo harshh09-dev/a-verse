@@ -3,14 +3,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Link } from "react-router-dom";
-import { ArrowLeft, BookOpen, Send } from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 const mockEntries = [
-  { name: "Rahul", message: "Amazing portfolio! Love the cosmic theme. 🌟", date: "2025-03-01" },
+  { name: "Rahul", message: "Amazing portfolio! Love the clean design. 🌟", date: "2025-03-01" },
   { name: "Priya", message: "Your creative corner is so inspiring. Keep building!", date: "2025-02-28" },
   { name: "Alex", message: "The 3D elements are beautiful. Great work, Anjali!", date: "2025-02-25" },
   { name: "Sarah", message: "This is one of the most unique portfolios I've seen. Bookmarked!", date: "2025-02-20" },
@@ -36,30 +36,26 @@ export default function SignatureBook() {
       <div className="pt-24 section-padding">
         <div className="max-w-4xl mx-auto">
           <ScrollReveal>
-            <Link to="/" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1 mb-8 font-body">
-              <ArrowLeft size={14} /> Back home
+            <Link to="/" className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mb-8 transition-colors">
+              <ArrowLeft size={12} /> Back home
             </Link>
-            <div className="flex items-center gap-3 mb-2">
-              <BookOpen size={28} className="text-primary" />
-              <h1 className="font-display text-4xl md:text-5xl font-bold">
-                <span className="gold-gradient">Signature Book</span>
-              </h1>
-            </div>
-            <p className="text-muted-foreground font-body mb-12">
-              Leave a message, share a thought, or just say hello. 💛
+            <h1 className="section-heading mb-2">
+              <span className="gradient-text font-serif italic">Signature Book</span>
+            </h1>
+            <p className="text-sm text-muted-foreground mb-12">
+              Leave a message, share a thought, or just say hello.
             </p>
           </ScrollReveal>
 
-          {/* Form */}
           <ScrollReveal>
-            <form onSubmit={handleSubmit} className="glass-card p-6 mb-12">
-              <h3 className="font-display font-semibold mb-4">Sign the book</h3>
+            <form onSubmit={handleSubmit} className="glass-card p-6 mb-10">
+              <h3 className="font-semibold text-foreground mb-4 text-sm">Sign the book</h3>
               <div className="grid md:grid-cols-2 gap-4 mb-4">
                 <Input
                   placeholder="Your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-secondary border-border"
+                  className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
                   required
                 />
                 <div className="hidden md:block" />
@@ -68,24 +64,23 @@ export default function SignatureBook() {
                 placeholder="Leave a message..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="bg-secondary border-border mb-4"
+                className="bg-muted border-border text-foreground placeholder:text-muted-foreground mb-4"
                 required
               />
-              <Button type="submit" className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-                <Send size={14} />
+              <Button type="submit" className="gap-2 bg-foreground text-background hover:bg-foreground/90 rounded-full">
+                <Send size={12} />
                 Sign
               </Button>
             </form>
           </ScrollReveal>
 
-          {/* Entries */}
           <div className="grid md:grid-cols-2 gap-4">
             {entries.map((entry, i) => (
-              <ScrollReveal key={i} delay={i * 0.06}>
-                <div className="glass-card p-5 hover-lift animate-float" style={{ animationDelay: `${i * 0.8}s` }}>
-                  <p className="text-sm text-foreground font-body mb-3">"{entry.message}"</p>
+              <ScrollReveal key={i} delay={i * 0.05}>
+                <div className="glass-card p-5 hover-lift">
+                  <p className="text-sm text-secondary-foreground mb-3">"{entry.message}"</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-display font-semibold text-primary">{entry.name}</span>
+                    <span className="text-sm font-medium text-foreground">{entry.name}</span>
                     <span className="text-xs text-muted-foreground">{entry.date}</span>
                   </div>
                 </div>

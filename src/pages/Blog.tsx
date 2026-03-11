@@ -66,36 +66,36 @@ export default function BlogPage() {
       <div className="pt-24 section-padding">
         <div className="max-w-4xl mx-auto">
           <ScrollReveal>
-            <Link to="/" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1 mb-8 font-body">
-              <ArrowLeft size={14} /> Back home
+            <Link to="/" className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mb-8 transition-colors">
+              <ArrowLeft size={12} /> Back home
             </Link>
-            <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
-              <span className="gold-gradient">Blog</span>
+            <h1 className="section-heading mb-4">
+              <span className="gradient-text font-serif italic">Blog</span>
             </h1>
-            <p className="text-muted-foreground font-body mb-12">
+            <p className="text-sm text-muted-foreground mb-12">
               Thoughts on software engineering, design, and creative technology.
             </p>
           </ScrollReveal>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             {posts.map((post, i) => (
-              <ScrollReveal key={post.id} delay={i * 0.08}>
+              <ScrollReveal key={post.id} delay={i * 0.06}>
                 <Link to={`/blog/${post.id}`} className="glass-card p-6 block hover-lift group">
                   <div className="flex flex-wrap items-center gap-3 mb-3">
                     {post.tags.map((tag) => (
-                      <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-                        {tag}
-                      </span>
+                      <span key={tag} className="tag-pill">{tag}</span>
                     ))}
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Clock size={12} /> {post.readTime}
+                      <Clock size={10} /> {post.readTime}
                     </span>
                   </div>
-                  <h2 className="font-display text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                  <h2 className="text-lg font-semibold text-foreground mb-2 group-hover:text-secondary-foreground transition-colors">
                     {post.title}
                   </h2>
-                  <p className="text-sm text-muted-foreground font-body">{post.excerpt}</p>
-                  <p className="text-xs text-muted-foreground mt-3">{new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
+                  <p className="text-sm text-muted-foreground">{post.excerpt}</p>
+                  <p className="text-xs text-muted-foreground mt-3">
+                    {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                  </p>
                 </Link>
               </ScrollReveal>
             ))}
