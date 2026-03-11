@@ -4,61 +4,46 @@ import { Github, Linkedin, Instagram } from "lucide-react";
 export default function AboutSection() {
   return (
     <section id="about" className="section-padding">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <p className="text-sm text-primary tracking-widest uppercase mb-4 font-body">About</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-8">
-            Building at the intersection of<br />
-            <span className="gold-gradient">technology & creativity</span>
+          <p className="section-label">A little about me</p>
+          <h2 className="section-heading mb-10">
+            Nice to meet you.{" "}
+            <span className="font-serif italic gradient-text">I'm Anjali</span>
           </h2>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          <ScrollReveal delay={0.1}>
-            <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
+        <div className="grid md:grid-cols-5 gap-10 items-start">
+          <ScrollReveal delay={0.1} className="md:col-span-3">
+            <div className="space-y-4 text-sm text-secondary-foreground leading-relaxed">
               <p>
-                I'm <span className="text-foreground font-medium">Anjali Kamal</span>, a full stack developer and
-                creative technologist passionate about building meaningful digital experiences.
+                I'm Anjali Kamal, a B.Tech student at <span className="text-foreground">IIIT Jabalpur</span> with a strong interest in building structured, scalable software. I enjoy working across the full stack, solving DSA problems, and understanding how systems operate under the hood.
               </p>
               <p>
-                Currently pursuing BTech at <span className="text-foreground font-medium">IIIT Jabalpur</span> in
-                Smart Manufacturing Engineering, I enjoy working at the intersection of technology, design and storytelling.
-              </p>
-              <p>
-                I believe technology should not only solve problems but also create beautiful and engaging experiences.
-                My work spans web development, UI/UX design, creative visual storytelling, and photography.
+                My recent work spans full-stack web applications, embedded systems, and algorithm-driven platforms. I'm currently exploring data science, system design, and practical AI integration — focusing on building solutions that are useful, reliable, and scalable in real-world environments.
               </p>
             </div>
 
             <div className="flex items-center gap-4 mt-6">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                <Github size={20} />
+              <a href="https://www.linkedin.com/in/anjalikamal-ak3105/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Linkedin size={18} />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                <Linkedin size={20} />
+              <a href="https://github.com/A-verse" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Github size={18} />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                <Instagram size={20} />
+              <a href="https://instagram.com/anjalikamal3105" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Instagram size={18} />
               </a>
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.2}>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { label: "Web Development", icon: "🌐" },
-                { label: "UI/UX Design", icon: "🎨" },
-                { label: "Visual Storytelling", icon: "📸" },
-                { label: "Creative Writing", icon: "✍️" },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="glass-card p-4 text-center hover-lift cursor-default"
-                >
-                  <span className="text-2xl mb-2 block">{item.icon}</span>
-                  <span className="text-xs text-muted-foreground font-body">{item.label}</span>
-                </div>
-              ))}
+          <ScrollReveal delay={0.2} className="md:col-span-2">
+            <div className="glass-card overflow-hidden rounded-2xl">
+              <img
+                src="https://aversee.vercel.app/cyber-security-experts-working-with-tech-devices-neon-lights.jpg"
+                alt="Anjali working"
+                className="w-full h-64 md:h-80 object-cover"
+              />
             </div>
           </ScrollReveal>
         </div>

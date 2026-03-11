@@ -30,41 +30,36 @@ export default function BlogPost() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Reading progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-[60] h-1 bg-transparent">
-        <div className="h-full bg-primary transition-all duration-150" style={{ width: `${progress}%` }} />
+      <div className="fixed top-0 left-0 right-0 z-[60] h-0.5">
+        <div className="h-full bg-foreground transition-all duration-150" style={{ width: `${progress}%` }} />
       </div>
 
       <Navbar />
       <article className="pt-24 section-padding">
         <div className="max-w-3xl mx-auto">
-          <Link to="/blog" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1 mb-8 font-body">
-            <ArrowLeft size={14} /> Back to blog
+          <Link to="/blog" className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mb-8 transition-colors">
+            <ArrowLeft size={12} /> Back to blog
           </Link>
 
           <div className="flex flex-wrap items-center gap-3 mb-4">
             {post.tags.map((tag) => (
-              <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-                {tag}
-              </span>
+              <span key={tag} className="tag-pill">{tag}</span>
             ))}
             <span className="text-xs text-muted-foreground flex items-center gap-1">
-              <Clock size={12} /> {post.readTime}
+              <Clock size={10} /> {post.readTime}
             </span>
           </div>
 
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-4">{post.title}</h1>
-          <p className="text-sm text-muted-foreground mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">{post.title}</h1>
+          <p className="text-xs text-muted-foreground mb-10">
             {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
           </p>
 
-          <div className="prose prose-invert max-w-none">
-            {post.content.split("\n\n").map((paragraph, i) => (
-              <p key={i} className="text-foreground/80 font-body leading-relaxed mb-4">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          {post.content.split("\n\n").map((paragraph, i) => (
+            <p key={i} className="text-sm text-secondary-foreground leading-relaxed mb-5">
+              {paragraph}
+            </p>
+          ))}
         </div>
       </article>
       <Footer />

@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Blog", href: "/blog", isRoute: true },
+  { label: "HOME", href: "#home" },
+  { label: "ABOUT", href: "#about" },
+  { label: "WORK", href: "#work" },
+  { label: "BLOGS", href: "/blog", isRoute: true },
+];
+
+const moreLinks = [
   { label: "Creative Corner", href: "/creative", isRoute: true },
   { label: "Signature Book", href: "/signature-book", isRoute: true },
-  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
 
@@ -27,6 +29,7 @@ export default function Navbar() {
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
+    setMoreOpen(false);
     if (href.startsWith("#") && isHome) {
       const el = document.querySelector(href);
       el?.scrollIntoView({ behavior: "smooth" });
@@ -34,92 +37,102 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-nav" : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link to="/" className="font-display text-xl font-bold tracking-wider">
-          <span className="gold-gradient">A-verse</span>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-md" : ""}`}>
+      <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="font-serif italic text-lg font-semibold text-foreground tracking-wide">
+          A-VERSE
         </Link>
 
-        {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-6">
-          {navLinks.map((link) =>
-            link.isRoute ? (
-              <Link
-                key={link.label}
-                to={link.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-2">
+          <div className="pill-nav flex items-center gap-1">
+            {navLinks.map((link) =>
+              link.isRoute ? (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className="text-xs font-medium px-4 py-1.5 rounded-full text-secondary-foreground hover:text-foreground hover:bg-muted transition-all"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.label}
+                  href={isHome ? link.href : `/${link.href}`}
+                  onClick={() => handleNavClick(link.href)}
+                  className="text-xs font-medium px-4 py-1.5 rounded-full text-secondary-foreground hover:text-foreground hover:bg-muted transition-all"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
+
+            {/* More dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setMoreOpen(!moreOpen)}
+                className="text-xs font-medium px-4 py-1.5 rounded-full text-secondary-foreground hover:text-foreground hover:bg-muted transition-all flex items-center gap-1"
               >
-                {link.label}
-              </Link>
-            ) : (
-              <a
-                key={link.label}
-                href={isHome ? link.href : `/${link.href}`}
-                onClick={() => handleNavClick(link.href)}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                {link.label}
-              </a>
-            )
-          )}
-          <div className="flex items-center gap-3 ml-4">
-            <span className="flex items-center gap-1.5 text-xs text-emerald-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse-glow" />
-              Available
-            </span>
-            <Button size="sm" className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90">
-              <Download className="w-3.5 h-3.5" />
-              Resume
-            </Button>
+                More
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform ${moreOpen ? "rotate-180" : ""}`}>
+                  <path d="M2 4L5 7L8 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </button>
+              {moreOpen && (
+                <div className="absolute top-full right-0 mt-2 bg-card border border-border rounded-xl py-2 min-w-[180px] shadow-2xl">
+                  {moreLinks.map((link) => (
+                    <Link
+                      key={link.label}
+                      to={link.href}
+                      onClick={() => setMoreOpen(false)}
+                      className="block px-4 py-2 text-xs text-secondary-foreground hover:text-foreground hover:bg-muted transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
+
+          <Link
+            to="#"
+            className="ml-2 text-xs font-medium px-5 py-2 rounded-full bg-foreground text-background hover:bg-foreground/90 transition-colors"
+          >
+            RESUME
+          </Link>
         </div>
 
         {/* Mobile toggle */}
-        <button
-          className="lg:hidden text-foreground"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+        <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden glass-nav border-t border-glass-border px-6 py-6 space-y-4">
+        <div className="md:hidden bg-background border-t border-border px-6 py-6 space-y-3">
           {navLinks.map((link) =>
             link.isRoute ? (
-              <Link
-                key={link.label}
-                to={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="block text-sm text-muted-foreground hover:text-primary"
-              >
+              <Link key={link.label} to={link.href} onClick={() => setMobileOpen(false)} className="block text-sm text-secondary-foreground hover:text-foreground">
                 {link.label}
               </Link>
             ) : (
-              <a
-                key={link.label}
-                href={isHome ? link.href : `/${link.href}`}
-                onClick={() => handleNavClick(link.href)}
-                className="block text-sm text-muted-foreground hover:text-primary"
-              >
+              <a key={link.label} href={isHome ? link.href : `/${link.href}`} onClick={() => handleNavClick(link.href)} className="block text-sm text-secondary-foreground hover:text-foreground">
                 {link.label}
               </a>
             )
           )}
-          <div className="flex items-center gap-3 pt-2">
-            <span className="flex items-center gap-1.5 text-xs text-emerald-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse-glow" />
-              Available
+          {moreLinks.map((link) => (
+            <Link key={link.label} to={link.href} onClick={() => setMobileOpen(false)} className="block text-sm text-secondary-foreground hover:text-foreground">
+              {link.label}
+            </Link>
+          ))}
+          <div className="pt-2">
+            <span className="text-xs font-medium px-5 py-2 rounded-full bg-foreground text-background inline-block">
+              RESUME
             </span>
-            <Button size="sm" className="gap-1.5">
-              <Download className="w-3.5 h-3.5" />
-              Resume
-            </Button>
           </div>
         </div>
       )}
