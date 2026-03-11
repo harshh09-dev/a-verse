@@ -2,79 +2,90 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 const experiences = [
   {
-    title: "Full Stack Developer",
-    company: "FABRO",
-    period: "2024 - Present",
-    description: "Building scalable web applications and leading frontend architecture.",
-    tags: ["React", "Node.js", "TypeScript", "PostgreSQL"],
-  },
-  {
     title: "Web Developer",
-    company: "JMRC",
-    period: "2024",
-    description: "Developed a modern portal for managing operations and services.",
-    tags: ["Next.js", "Tailwind CSS", "MongoDB"],
+    company: "FABRO",
+    period: "Feb 2026 – Present | Remote",
+    bullets: [
+      "Delivered a scalable e-commerce platform showcasing Indian embroidery through high-impact visual storytelling.",
+      "Improved user conversion flow by designing seamless cart and order workflows integrated with WhatsApp-based routing.",
+      "Built a maintainable TypeScript architecture to support future brand expansion and feature scaling.",
+    ],
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Full-stack architecture", "API integration"],
   },
   {
-    title: "Committee Member",
-    company: "APS Committee",
-    period: "2023 - 2024",
-    description: "Designed and developed the official committee website and managed digital presence.",
-    tags: ["React", "UI/UX", "Design"],
+    title: "Software Developer",
+    company: "Jaipur Metro Rail Corporation (JMRC)",
+    period: "June 2025 – August 2025 | Jaipur",
+    bullets: [
+      "Improved operational efficiency by developing a voice detection module for CCS2300 counters within the Automatic Fare Collection system.",
+      "Enhanced issue resolution workflows by collaborating on a smart complaint & feedback portal for metro operations.",
+      "Bridged software and physical infrastructure systems by gaining hands-on exposure to SMPS and signaling components.",
+    ],
+    tags: ["System integration", "Embedded systems", "Full-stack development", "Database workflows"],
+  },
+  {
+    title: "Core Working Committee Member",
+    company: "Astronomy & Physics Society (APS), IIIT Jabalpur",
+    period: "August 2024 – April 2025",
+    bullets: [
+      "Increased student engagement in STEM activities by organizing and leading technical workshops and coding-based sessions.",
+      "Coordinated cross-functional teams to execute coding challenges, guest lectures, and physics-based technical events.",
+    ],
+    tags: ["Leadership", "Technical mentoring", "Public speaking", "Event planning"],
   },
   {
     title: "Open Source Contributor",
-    company: "GSSoC",
-    period: "2023",
-    description: "Contributed to multiple open-source projects during GirlScript Summer of Code.",
-    tags: ["Open Source", "Git", "Collaboration"],
+    company: "GirlScript Summer of Code (GSSoC)",
+    period: "May 2024 – August 2024",
+    bullets: [
+      "Improved application performance and usability by contributing feature enhancements and bug fixes to production-level open-source repositories.",
+      "Strengthened code quality and maintainability through structured PR reviews and collaborative Git workflows.",
+    ],
+    tags: ["React", "Node.js", "TypeScript", "GitHub", "API integration", "Code reviews"],
   },
 ];
 
 export default function ExperienceSection() {
   return (
-    <section id="experience" className="section-padding bg-secondary/20">
-      <div className="max-w-4xl mx-auto">
+    <section id="experience" className="section-padding">
+      <div className="max-w-5xl mx-auto">
         <ScrollReveal>
-          <p className="text-sm text-primary tracking-widest uppercase mb-4 font-body">Experience</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-12">
-            Where I've <span className="gold-gradient">contributed</span>
+          <p className="section-label">Career path</p>
+          <h2 className="section-heading mb-14">
+            Experience That Brings{" "}
+            <span className="font-serif italic gradient-text">Ideas to Life</span>
           </h2>
         </ScrollReveal>
 
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-border" />
-
-          <div className="space-y-8">
-            {experiences.map((exp, i) => (
-              <ScrollReveal key={i} delay={i * 0.1}>
-                <div className="relative pl-12 md:pl-20">
-                  {/* Timeline dot */}
-                  <div className="absolute left-3 md:left-7 top-2 w-3 h-3 rounded-full bg-primary border-2 border-background" />
-
-                  <div className="glass-card p-6 hover-lift">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-                      <h3 className="font-display text-lg font-semibold text-foreground">{exp.title}</h3>
-                      <span className="text-xs text-muted-foreground">{exp.period}</span>
-                    </div>
-                    <p className="text-sm text-primary font-medium mb-2">{exp.company}</p>
-                    <p className="text-sm text-muted-foreground mb-3 font-body">{exp.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {exp.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+        <div className="space-y-8">
+          {experiences.map((exp, i) => (
+            <ScrollReveal key={i} delay={i * 0.08}>
+              <div className="glass-card p-6 md:p-8 hover-lift">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3">
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground">{exp.title}</h3>
+                    <p className="text-sm text-muted-foreground">{exp.company}</p>
                   </div>
+                  <span className="text-xs text-muted-foreground mt-1 md:mt-0 whitespace-nowrap">{exp.period}</span>
                 </div>
-              </ScrollReveal>
-            ))}
-          </div>
+
+                <ul className="space-y-2 mb-4">
+                  {exp.bullets.map((bullet, j) => (
+                    <li key={j} className="text-sm text-secondary-foreground leading-relaxed flex gap-2">
+                      <span className="text-muted-foreground mt-1 shrink-0">•</span>
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="flex flex-wrap gap-2">
+                  {exp.tags.map((tag) => (
+                    <span key={tag} className="tag-pill">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
       </div>
     </section>
