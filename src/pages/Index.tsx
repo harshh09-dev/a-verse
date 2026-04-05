@@ -1,30 +1,26 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/sections/HeroSection";
-import AboutSection from "@/components/sections/AboutSection";
-import ExperienceSection from "@/components/sections/ExperienceSection";
-import ProjectsSection from "@/components/sections/ProjectsSection";
+import FeaturedProjects from "@/components/sections/FeaturedProjects";
+import AboutPreview from "@/components/sections/AboutPreview";
 import SkillsSection from "@/components/sections/SkillsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import DecodingSection from "@/components/sections/DecodingSection";
-import BlogPreview from "@/components/sections/BlogPreview";
-import SignaturePreview from "@/components/sections/SignaturePreview";
-import ContactSection from "@/components/sections/ContactSection";
+import ContactCTA from "@/components/sections/ContactCTA";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background noise-overlay">
       <Navbar />
       <HeroSection />
-      <AboutSection />
-      <ExperienceSection />
-      <ProjectsSection />
+      <div className="divider-line" />
+      <FeaturedProjects />
+      <div className="divider-line" />
+      <AboutPreview />
       <SkillsSection />
+      <div className="divider-line" />
       <TestimonialsSection />
-      <DecodingSection />
-      <BlogPreview />
-      <SignaturePreview />
-      <ContactSection />
+      <div className="divider-line" />
+      <ContactCTA />
       <Footer />
     </div>
   );
