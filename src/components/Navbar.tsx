@@ -1,25 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { label: "HOME", href: "#home" },
-  { label: "ABOUT", href: "#about" },
-  { label: "WORK", href: "#work" },
-  { label: "BLOGS", href: "/blog", isRoute: true },
-];
-
-const moreLinks = [
-  { label: "Creative Corner", href: "/creative", isRoute: true },
-  { label: "Signature Book", href: "/signature-book", isRoute: true },
+  { label: "Home", href: "/" },
+  { label: "Projects", href: "/projects" },
+  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
-  const isHome = location.pathname === "/";
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
@@ -27,115 +22,112 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  const handleNavClick = (href: string) => {
+  useEffect(() => {
     setMobileOpen(false);
-    setMoreOpen(false);
-    if (href.startsWith("#") && isHome) {
-      const el = document.querySelector(href);
-      el?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  }, [location.pathname]);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-md" : ""}`}>
-      <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="font-serif italic text-lg font-semibold text-foreground tracking-wide">
-          A-VERSE
-        </Link>
-
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-2">
-          <div className="pill-nav flex items-center gap-1">
-            {navLinks.map((link) =>
-              link.isRoute ? (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  className="text-xs font-medium px-4 py-1.5 rounded-full text-secondary-foreground hover:text-foreground hover:bg-muted transition-all"
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <a
-                  key={link.label}
-                  href={isHome ? link.href : `/${link.href}`}
-                  onClick={() => handleNavClick(link.href)}
-                  className="text-xs font-medium px-4 py-1.5 rounded-full text-secondary-foreground hover:text-foreground hover:bg-muted transition-all"
-                >
-                  {link.label}
-                </a>
-              )
-            )}
-
-            {/* More dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setMoreOpen(!moreOpen)}
-                className="text-xs font-medium px-4 py-1.5 rounded-full text-secondary-foreground hover:text-foreground hover:bg-muted transition-all flex items-center gap-1"
-              >
-                More
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform ${moreOpen ? "rotate-180" : ""}`}>
-                  <path d="M2 4L5 7L8 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </button>
-              {moreOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-card border border-border rounded-xl py-2 min-w-[180px] shadow-2xl">
-                  {moreLinks.map((link) => (
-                    <Link
-                      key={link.label}
-                      to={link.href}
-                      onClick={() => setMoreOpen(false)}
-                      className="block px-4 py-2 text-xs text-secondary-foreground hover:text-foreground hover:bg-muted transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <Link
-            to="#"
-            className="ml-2 text-xs font-medium px-5 py-2 rounded-full bg-foreground text-background hover:bg-foreground/90 transition-colors"
-          >
-            RESUME
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : ""
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 group">
+            <span className="text-xl font-bold text-foreground tracking-tight">
+              A<span className="text-accent">.</span>verse
+            </span>
           </Link>
-        </div>
 
-        {/* Mobile toggle */}
-        <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-background border-t border-border px-6 py-6 space-y-3">
-          {navLinks.map((link) =>
-            link.isRoute ? (
-              <Link key={link.label} to={link.href} onClick={() => setMobileOpen(false)} className="block text-sm text-secondary-foreground hover:text-foreground">
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.href}
+                className={`text-sm transition-colors duration-300 ${
+                  location.pathname === link.href
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
                 {link.label}
               </Link>
-            ) : (
-              <a key={link.label} href={isHome ? link.href : `/${link.href}`} onClick={() => handleNavClick(link.href)} className="block text-sm text-secondary-foreground hover:text-foreground">
-                {link.label}
-              </a>
-            )
-          )}
-          {moreLinks.map((link) => (
-            <Link key={link.label} to={link.href} onClick={() => setMobileOpen(false)} className="block text-sm text-secondary-foreground hover:text-foreground">
-              {link.label}
-            </Link>
-          ))}
-          <div className="pt-2">
-            <span className="text-xs font-medium px-5 py-2 rounded-full bg-foreground text-background inline-block">
-              RESUME
-            </span>
+            ))}
           </div>
+
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="https://github.com/A-verse"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline text-xs py-2.5 px-5"
+            >
+              GitHub <ArrowUpRight size={12} />
+            </a>
+          </div>
+
+          <button
+            className="md:hidden text-foreground p-2"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
-      )}
-    </nav>
+      </nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-background pt-24 px-8"
+          >
+            <div className="flex flex-col gap-6">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.label}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <Link
+                    to={link.href}
+                    className={`text-3xl font-bold tracking-tight ${
+                      location.pathname === link.href
+                        ? "text-foreground"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+            <div className="absolute bottom-10 left-8 right-8 flex gap-4">
+              <a
+                href="https://github.com/A-verse"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                GitHub ↗
+              </a>
+              <a
+                href="https://www.linkedin.com/in/anjalikamal-ak3105/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                LinkedIn ↗
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

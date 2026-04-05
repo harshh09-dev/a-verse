@@ -29,15 +29,25 @@ export default function BlogPost() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background noise-overlay">
+      {/* Reading progress */}
       <div className="fixed top-0 left-0 right-0 z-[60] h-0.5">
-        <div className="h-full bg-foreground transition-all duration-150" style={{ width: `${progress}%` }} />
+        <div
+          className="h-full transition-all duration-150"
+          style={{
+            width: `${progress}%`,
+            background: "linear-gradient(90deg, #f97316, #eab308)",
+          }}
+        />
       </div>
 
       <Navbar />
-      <article className="pt-24 section-padding">
+      <article className="pt-28 md:pt-36 section-padding">
         <div className="max-w-3xl mx-auto">
-          <Link to="/blog" className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mb-8 transition-colors">
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground mb-10 transition-colors"
+          >
             <ArrowLeft size={12} /> Back to blog
           </Link>
 
@@ -50,9 +60,15 @@ export default function BlogPost() {
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">{post.title}</h1>
-          <p className="text-xs text-muted-foreground mb-10">
-            {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground tracking-tight">
+            {post.title}
+          </h1>
+          <p className="text-xs text-muted-foreground mb-12">
+            {new Date(post.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
           </p>
 
           {post.content.split("\n\n").map((paragraph, i) => (
