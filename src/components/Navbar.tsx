@@ -1,19 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Projects", href: "/projects" },
+  { label: "Work", href: "/projects" },
+  {
+    label: "Creative",
+    href: "/creative",
+    children: [
+      { label: "Photography", href: "/creative/photography" },
+      { label: "Writing", href: "/creative/writing" },
+      { label: "UI Experiments", href: "/creative/experiments" },
+    ],
+  },
   { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
+  { label: "Signature Book", href: "/signature-book" },
+  { label: "Links", href: "/links" },
   { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileCreativeOpen, setMobileCreativeOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -24,7 +37,24 @@ export default function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
+    setDropdownOpen(false);
+    setMobileCreativeOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const isActive = (href: string) => {
+    if (href === "/") return location.pathname === "/";
+    return location.pathname.startsWith(href);
+  };
 
   return (
     <>
@@ -40,20 +70,68 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                to={link.href}
-                className={`text-sm transition-colors duration-300 ${
-                  location.pathname === link.href
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center gap-7">
+            {navLinks.map((link) =>
+              link.children ? (
+                <div key={link.label} className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className={`text-sm transition-colors duration-300 flex items-center gap-1 ${
+                      isActive(link.href)
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {link.label}
+                    <ChevronDown size={12} className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {dropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full mt-3 left-1/2 -translate-x-1/2 w-48 bg-card/95 backdrop-blur-xl border border-border rounded-xl p-2 shadow-2xl"
+                      >
+                        <Link
+                          to={link.href}
+                          className="block px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors mb-1"
+                        >
+                          All Creative
+                        </Link>
+                        <div className="h-px bg-border mx-2 mb-1" />
+                        {link.children.map((child) => (
+                          <Link
+                            key={child.label}
+                            to={child.href}
+                            className={`block px-3 py-2 text-sm rounded-lg transition-colors ${
+                              location.pathname === child.href
+                                ? "text-foreground bg-muted"
+                                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                            }`}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className={`text-sm transition-colors duration-300 ${
+                    isActive(link.href)
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </div>
 
           <div className="hidden md:flex items-center gap-3">
@@ -84,44 +162,71 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background pt-24 px-8"
+            className="fixed inset-0 z-40 bg-background pt-24 px-8 overflow-y-auto"
           >
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-5">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.label}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
+                  transition={{ delay: i * 0.04 }}
                 >
-                  <Link
-                    to={link.href}
-                    className={`text-3xl font-bold tracking-tight ${
-                      location.pathname === link.href
-                        ? "text-foreground"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
+                  {link.children ? (
+                    <div>
+                      <button
+                        onClick={() => setMobileCreativeOpen(!mobileCreativeOpen)}
+                        className={`text-3xl font-bold tracking-tight flex items-center gap-2 ${
+                          isActive(link.href) ? "text-foreground" : "text-muted-foreground"
+                        }`}
+                      >
+                        {link.label}
+                        <ChevronDown size={20} className={`transition-transform ${mobileCreativeOpen ? "rotate-180" : ""}`} />
+                      </button>
+                      <AnimatePresence>
+                        {mobileCreativeOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden ml-4 mt-3 space-y-3"
+                          >
+                            <Link to={link.href} className="block text-lg text-muted-foreground hover:text-foreground">
+                              All Creative
+                            </Link>
+                            {link.children.map((child) => (
+                              <Link
+                                key={child.label}
+                                to={child.href}
+                                className={`block text-lg ${
+                                  location.pathname === child.href ? "text-foreground" : "text-muted-foreground"
+                                }`}
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className={`text-3xl font-bold tracking-tight ${
+                        isActive(link.href) ? "text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </motion.div>
               ))}
             </div>
-            <div className="absolute bottom-10 left-8 right-8 flex gap-4">
-              <a
-                href="https://github.com/A-verse"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
+            <div className="mt-12 flex gap-4">
+              <a href="https://github.com/A-verse" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 GitHub ↗
               </a>
-              <a
-                href="https://www.linkedin.com/in/anjalikamal-ak3105/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
+              <a href="https://www.linkedin.com/in/anjalikamal-ak3105/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 LinkedIn ↗
               </a>
             </div>
