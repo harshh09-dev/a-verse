@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 const footerLinks = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
+  { label: "Creative", href: "/creative" },
   { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
+  { label: "Signature Book", href: "/signature-book" },
+  { label: "Links", href: "/links" },
   { label: "Contact", href: "/contact" },
 ];
 
