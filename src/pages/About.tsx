@@ -39,6 +39,13 @@ const interests = [
 ];
 
 export default function About() {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 80%", "end 20%"],
+  });
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
     <div className="min-h-screen bg-background noise-overlay">
       <Navbar />
