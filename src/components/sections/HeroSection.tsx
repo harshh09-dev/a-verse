@@ -94,7 +94,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
         >
-          <h1 className="text-[13vw] md:text-[8vw] lg:text-[6.5vw] font-black leading-[0.9] tracking-tighter text-foreground mb-6">
+          <h1 className="text-[18vw] md:text-[8vw] lg:text-[6.5vw] font-black leading-[0.9] tracking-tighter text-foreground mb-6">
             ANJALI
             <br />
             <span className="text-muted-foreground">KAMAL</span>
