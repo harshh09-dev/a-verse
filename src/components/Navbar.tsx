@@ -4,8 +4,8 @@ import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { label: "Home", href: "/" },
   { label: "Work", href: "/projects" },
+  { label: "About", href: "/about" },
   {
     label: "Creative",
     href: "/creative",
@@ -15,9 +15,15 @@ const navLinks = [
       { label: "UI Experiments", href: "/creative/experiments" },
     ],
   },
-  { label: "About", href: "/about" },
-  { label: "Signature Book", href: "/signature-book" },
-  { label: "Links", href: "/links" },
+  {
+    label: "More",
+    href: "/links",
+    children: [
+      { label: "Journal", href: "/blog" },
+      { label: "Signature Book", href: "/signature-book" },
+      { label: "Links", href: "/links" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
 ];
 

@@ -16,12 +16,13 @@ const Index = () => {
       <div className="divider-line" />
       <WhatIDo />
       <div className="divider-line" />
+      <AboutPreview />
+      <div className="divider-line" />
       <FeaturedProjects />
       <div className="divider-line" />
-      <CreativeSide />
-      <div className="divider-line" />
-      <AboutPreview />
       <SkillsSection />
+      <div className="divider-line" />
+      <CreativeSide />
       <div className="divider-line" />
       <ContactCTA />
       <Footer />
