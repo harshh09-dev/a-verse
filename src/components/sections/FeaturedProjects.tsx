@@ -52,7 +52,41 @@ export default function FeaturedProjects() {
           </div>
         </ScrollReveal>
 
-        <div className="space-y-6">
+        {/* Mobile: swipe carousel */}
+        <div className="md:hidden -mx-6 px-6 snap-row flex gap-4 overflow-x-auto pb-2">
+          {featured.map((project) => (
+            <Link
+              key={project.id}
+              to={`/projects/${project.id}`}
+              className="group block shrink-0 w-[85%]"
+            >
+              <div className="glass-card overflow-hidden hover-lift h-full">
+                <div className="aspect-[4/3] overflow-hidden bg-muted">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[10px] text-accent uppercase tracking-widest">{project.category}</span>
+                    <span className="text-[10px] text-muted-foreground">{project.year}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
+                  <p className="text-xs text-secondary-foreground leading-relaxed line-clamp-2">{project.description}</p>
+                  <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                    Case Study <ArrowUpRight size={12} />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop: full rows */}
+        <div className="hidden md:block space-y-6">
           {featured.map((project, i) => (
             <ScrollReveal key={project.id} delay={i * 0.1}>
               <Link
