@@ -87,7 +87,7 @@
   }
 
   .section-padding {
-    @apply px-6 md:px-16 lg:px-24 py-20 md:py-28;
+    @apply px-5 md:px-16 lg:px-24 py-14 md:py-28;
   }
 
   .glass-card {
@@ -103,15 +103,15 @@
   }
 
   .tag-pill {
-    @apply text-xs px-3 py-1 rounded-full bg-muted text-muted-foreground border border-border;
+    @apply text-[10px] md:text-xs px-2.5 py-1 rounded-full bg-muted text-muted-foreground border border-border;
   }
 
   .section-label {
-    @apply text-xs tracking-[0.3em] uppercase text-accent font-medium mb-4;
+    @apply text-[10px] md:text-xs tracking-[0.3em] uppercase text-accent font-medium mb-3 md:mb-4;
   }
 
   .section-heading {
-    @apply text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1];
+    @apply text-[1.75rem] leading-[1.1] md:text-5xl lg:text-6xl font-bold tracking-tight;
   }
 
   .btn-primary {
