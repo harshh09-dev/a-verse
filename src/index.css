@@ -162,6 +162,20 @@ html {
   animation: float 6s ease-in-out infinite;
 }
 
+/* Reserve space for the floating mobile bottom nav */
+@media (max-width: 767px) {
+  body { padding-bottom: 5.5rem; }
+}
+
+/* Snap carousel utilities */
+.snap-row {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.snap-row::-webkit-scrollbar { display: none; }
+.snap-row > * { scroll-snap-align: center; }
+
 @keyframes grain {
   0%, 100% { transform: translate(0, 0); }
   10% { transform: translate(-5%, -10%); }

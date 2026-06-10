@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const journey = [
   {
@@ -38,6 +39,13 @@ const interests = [
 ];
 
 export default function About() {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 80%", "end 20%"],
+  });
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
     <div className="min-h-screen bg-background noise-overlay">
       <Navbar />
@@ -96,20 +104,36 @@ export default function About() {
             </h2>
           </ScrollReveal>
 
-          <div className="relative mb-24">
-            {/* Timeline line */}
+          <div ref={timelineRef} className="relative mb-24">
+            {/* Timeline track */}
             <div className="absolute left-0 md:left-8 top-0 bottom-0 w-px bg-border" />
+            {/* Animated progress line */}
+            <motion.div
+              style={{ height: lineHeight }}
+              className="absolute left-0 md:left-8 top-0 w-px bg-gradient-to-b from-accent via-yellow-500 to-pink-500 shadow-[0_0_12px_rgba(249,115,22,0.5)]"
+            />
 
             <div className="space-y-12">
               {journey.map((item, i) => (
-                <ScrollReveal key={i} delay={i * 0.08}>
-                  <div className="relative pl-8 md:pl-20">
-                    <div className="absolute left-0 md:left-8 top-1.5 w-2 h-2 rounded-full bg-accent -translate-x-[3.5px]" />
-                    <span className="text-xs text-accent uppercase tracking-widest">{item.year}</span>
-                    <h3 className="text-lg font-semibold text-foreground mt-1 mb-2">{item.title}</h3>
-                    <p className="text-sm text-secondary-foreground leading-relaxed max-w-xl">{item.description}</p>
-                  </div>
-                </ScrollReveal>
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  className="relative pl-8 md:pl-20"
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 + 0.2, type: "spring", stiffness: 300 }}
+                    className="absolute left-0 md:left-8 top-1.5 w-3 h-3 rounded-full bg-accent -translate-x-[5px] ring-4 ring-background shadow-[0_0_16px_rgba(249,115,22,0.6)]"
+                  />
+                  <span className="text-xs text-accent uppercase tracking-widest">{item.year}</span>
+                  <h3 className="text-lg font-semibold text-foreground mt-1 mb-2">{item.title}</h3>
+                  <p className="text-sm text-secondary-foreground leading-relaxed max-w-xl">{item.description}</p>
+                </motion.div>
               ))}
             </div>
           </div>
