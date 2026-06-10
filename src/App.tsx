@@ -1,8 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Loader from "./components/Loader";
+import BottomNav from "./components/BottomNav";
+import PageTransition from "./components/PageTransition";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import BlogPage from "./pages/Blog";
@@ -20,28 +24,42 @@ import Links from "./pages/Links";
 
 const queryClient = new QueryClient();
 
+const wrap = (el: React.ReactNode) => <PageTransition>{el}</PageTransition>;
+
+function AnimatedRoutes() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={wrap(<Index />)} />
+        <Route path="/projects" element={wrap(<Projects />)} />
+        <Route path="/projects/:id" element={wrap(<ProjectDetail />)} />
+        <Route path="/about" element={wrap(<About />)} />
+        <Route path="/blog" element={wrap(<BlogPage />)} />
+        <Route path="/blog/:id" element={wrap(<BlogPost />)} />
+        <Route path="/contact" element={wrap(<Contact />)} />
+        <Route path="/creative" element={wrap(<CreativeCorner />)} />
+        <Route path="/creative/photography" element={wrap(<Photography />)} />
+        <Route path="/creative/writing" element={wrap(<Writing />)} />
+        <Route path="/creative/experiments" element={wrap(<Experiments />)} />
+        <Route path="/signature-book" element={wrap(<SignatureBook />)} />
+        <Route path="/links" element={wrap(<Links />)} />
+        <Route path="*" element={wrap(<NotFound />)} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <Loader />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:id" element={<ProjectDetail />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/creative" element={<CreativeCorner />} />
-          <Route path="/creative/photography" element={<Photography />} />
-          <Route path="/creative/writing" element={<Writing />} />
-          <Route path="/creative/experiments" element={<Experiments />} />
-          <Route path="/signature-book" element={<SignatureBook />} />
-          <Route path="/links" element={<Links />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AnimatedRoutes />
+        <BottomNav />
+        <div className="md:hidden h-20" aria-hidden />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
