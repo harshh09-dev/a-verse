@@ -4,8 +4,8 @@ import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { label: "Home", href: "/" },
   { label: "Work", href: "/projects" },
+  { label: "About", href: "/about" },
   {
     label: "Creative",
     href: "/creative",
@@ -15,17 +15,23 @@ const navLinks = [
       { label: "UI Experiments", href: "/creative/experiments" },
     ],
   },
-  { label: "About", href: "/about" },
-  { label: "Signature Book", href: "/signature-book" },
-  { label: "Links", href: "/links" },
+  {
+    label: "More",
+    href: "/links",
+    children: [
+      { label: "Journal", href: "/blog" },
+      { label: "Signature Book", href: "/signature-book" },
+      { label: "Links", href: "/links" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [mobileCreativeOpen, setMobileCreativeOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [mobileOpenMenu, setMobileOpenMenu] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -37,14 +43,14 @@ export default function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
-    setDropdownOpen(false);
-    setMobileCreativeOpen(false);
+    setOpenMenu(null);
+    setMobileOpenMenu(null);
   }, [location.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
+        setOpenMenu(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -73,9 +79,9 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-7">
             {navLinks.map((link) =>
               link.children ? (
-                <div key={link.label} className="relative" ref={dropdownRef}>
+                <div key={link.label} className="relative" ref={openMenu === link.label ? dropdownRef : undefined}>
                   <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    onClick={() => setOpenMenu(openMenu === link.label ? null : link.label)}
                     className={`text-sm transition-colors duration-300 flex items-center gap-1 ${
                       isActive(link.href)
                         ? "text-foreground"
@@ -83,24 +89,17 @@ export default function Navbar() {
                     }`}
                   >
                     {link.label}
-                    <ChevronDown size={12} className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown size={12} className={`transition-transform duration-200 ${openMenu === link.label ? "rotate-180" : ""}`} />
                   </button>
                   <AnimatePresence>
-                    {dropdownOpen && (
+                    {openMenu === link.label && (
                       <motion.div
                         initial={{ opacity: 0, y: 8, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full mt-3 left-1/2 -translate-x-1/2 w-48 bg-card/95 backdrop-blur-xl border border-border rounded-xl p-2 shadow-2xl"
+                        className="absolute top-full mt-3 left-1/2 -translate-x-1/2 w-52 bg-card/95 backdrop-blur-xl border border-border rounded-xl p-2 shadow-2xl"
                       >
-                        <Link
-                          to={link.href}
-                          className="block px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors mb-1"
-                        >
-                          All Creative
-                        </Link>
-                        <div className="h-px bg-border mx-2 mb-1" />
                         {link.children.map((child) => (
                           <Link
                             key={child.label}
@@ -175,25 +174,22 @@ export default function Navbar() {
                   {link.children ? (
                     <div>
                       <button
-                        onClick={() => setMobileCreativeOpen(!mobileCreativeOpen)}
+                        onClick={() => setMobileOpenMenu(mobileOpenMenu === link.label ? null : link.label)}
                         className={`text-3xl font-bold tracking-tight flex items-center gap-2 ${
                           isActive(link.href) ? "text-foreground" : "text-muted-foreground"
                         }`}
                       >
                         {link.label}
-                        <ChevronDown size={20} className={`transition-transform ${mobileCreativeOpen ? "rotate-180" : ""}`} />
+                        <ChevronDown size={20} className={`transition-transform ${mobileOpenMenu === link.label ? "rotate-180" : ""}`} />
                       </button>
                       <AnimatePresence>
-                        {mobileCreativeOpen && (
+                        {mobileOpenMenu === link.label && (
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden ml-4 mt-3 space-y-3"
                           >
-                            <Link to={link.href} className="block text-lg text-muted-foreground hover:text-foreground">
-                              All Creative
-                            </Link>
                             {link.children.map((child) => (
                               <Link
                                 key={child.label}

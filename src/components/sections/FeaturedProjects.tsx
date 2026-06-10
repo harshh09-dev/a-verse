@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 
 const featured = [
@@ -8,31 +9,116 @@ const featured = [
     id: "fabro",
     title: "FABRO",
     category: "E-Commerce · Web Development",
-    description: "Modern e-commerce platform for customization-first Indian embroidery apparel.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80",
+    description:
+      "Modern e-commerce platform for customization-first Indian embroidery apparel — built for storytellers, not just shoppers.",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&q=80",
     year: "2026",
+    accent: "from-orange-500/20 to-transparent",
   },
   {
     id: "jmrc",
     title: "JMRC Portal",
     category: "Enterprise · Full Stack",
-    description: "Scalable metro service management platform with intelligent fare computation.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+    description:
+      "Scalable metro service management with intelligent fare computation, role-based access, and real-time analytics.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80",
     year: "2025",
+    accent: "from-blue-500/20 to-transparent",
   },
   {
     id: "palate",
     title: "Palate",
     category: "Full Stack · Recipe Platform",
-    description: "Full-stack recipe management with Prisma ORM and cloud-based auth system.",
-    image: "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80",
+    description:
+      "A recipe space that feels like a kitchen journal — Prisma ORM, cloud auth, and a flavor-forward UI.",
+    image: "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=80",
     year: "2025",
+    accent: "from-emerald-500/20 to-transparent",
   },
 ];
 
+function StickyCard({
+  project,
+  index,
+  total,
+}: {
+  project: (typeof featured)[number];
+  index: number;
+  total: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // Each subsequent card scales down and fades slightly as the next overlays
+  const scale = useTransform(scrollYProgress, [0.4, 1], [1, 0.92]);
+  const opacity = useTransform(scrollYProgress, [0.4, 0.95], [1, 0.4]);
+  const y = useTransform(scrollYProgress, [0, 0.4], [60, 0]);
+
+  const topOffset = 80 + index * 28; // each card sticks slightly lower
+
+  return (
+    <div
+      ref={ref}
+      className="sticky"
+      style={{ top: `${topOffset}px` }}
+    >
+      <motion.div
+        style={{ scale, opacity, y }}
+        className="will-change-transform"
+      >
+        <Link to={`/projects/${project.id}`} className="group block">
+          <div className="glass-card overflow-hidden hover-lift relative">
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${project.accent} pointer-events-none opacity-60`}
+            />
+            <div className="grid md:grid-cols-2 relative">
+              <div className="aspect-[4/3] md:aspect-auto overflow-hidden bg-muted">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-8 md:p-12 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs text-accent uppercase tracking-widest">
+                      {project.category}
+                    </span>
+                    <span className="text-xs text-muted-foreground tabular-nums">
+                      0{index + 1} / 0{total} · {project.year}
+                    </span>
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4 group-hover:text-accent transition-colors duration-500">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-secondary-foreground leading-relaxed">
+                    {project.description}
+                  </p>
+                </div>
+                <div className="mt-8 flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                  <span className="story-link">View Case Study</span>
+                  <ArrowUpRight
+                    size={14}
+                    className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Link>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function FeaturedProjects() {
   return (
-    <section className="section-padding">
+    <section className="section-padding relative">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
           <div className="flex items-end justify-between mb-16">
@@ -45,90 +131,72 @@ export default function FeaturedProjects() {
             </div>
             <Link
               to="/projects"
-              className="hidden md:flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="hidden md:flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors story-link"
             >
-              View all projects <ArrowRight size={14} />
+              View all <ArrowRight size={14} />
             </Link>
           </div>
         </ScrollReveal>
 
-        {/* Mobile: swipe carousel */}
+        {/* Mobile: animated snap carousel */}
         <div className="md:hidden -mx-6 px-6 snap-row flex gap-4 overflow-x-auto pb-2">
-          {featured.map((project) => (
-            <Link
-              key={project.id}
-              to={`/projects/${project.id}`}
-              className="group block shrink-0 w-[85%]"
-            >
-              <div className="glass-card overflow-hidden hover-lift h-full">
-                <div className="aspect-[4/3] overflow-hidden bg-muted">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] text-accent uppercase tracking-widest">{project.category}</span>
-                    <span className="text-[10px] text-muted-foreground">{project.year}</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
-                  <p className="text-xs text-secondary-foreground leading-relaxed line-clamp-2">{project.description}</p>
-                  <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                    Case Study <ArrowUpRight size={12} />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Desktop: full rows */}
-        <div className="hidden md:block space-y-6">
           {featured.map((project, i) => (
-            <ScrollReveal key={project.id} delay={i * 0.1}>
-              <Link
-                to={`/projects/${project.id}`}
-                className="group block"
-              >
-                <div className="glass-card overflow-hidden hover-lift">
-                  <div className="grid md:grid-cols-2">
-                    <div className="aspect-[4/3] md:aspect-auto overflow-hidden bg-muted">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        loading="lazy"
-                      />
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="shrink-0 w-[85%]"
+            >
+              <Link to={`/projects/${project.id}`} className="group block">
+                <div className="glass-card overflow-hidden hover-lift h-full">
+                  <div className="aspect-[4/3] overflow-hidden bg-muted">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[10px] text-accent uppercase tracking-widest">
+                        {project.category}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">
+                        {project.year}
+                      </span>
                     </div>
-                    <div className="p-8 md:p-12 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-xs text-accent uppercase tracking-widest">{project.category}</span>
-                          <span className="text-xs text-muted-foreground">{project.year}</span>
-                        </div>
-                        <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-3 group-hover:text-foreground/80 transition-colors">
-                          {project.title}
-                        </h3>
-                        <p className="text-sm text-secondary-foreground leading-relaxed">
-                          {project.description}
-                        </p>
-                      </div>
-                      <div className="mt-8 flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                        View Case Study
-                        <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      {project.title}
+                    </h3>
+                    <p className="text-xs text-secondary-foreground leading-relaxed line-clamp-2">
+                      {project.description}
+                    </p>
+                    <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                      Case Study <ArrowUpRight size={12} />
                     </div>
                   </div>
                 </div>
               </Link>
-            </ScrollReveal>
+            </motion.div>
           ))}
         </div>
 
-        <ScrollReveal delay={0.3}>
+        {/* Desktop: scroll-stacked sticky cards */}
+        <div className="hidden md:block space-y-10">
+          {featured.map((project, i) => (
+            <StickyCard
+              key={project.id}
+              project={project}
+              index={i}
+              total={featured.length}
+            />
+          ))}
+        </div>
+
+        <ScrollReveal delay={0.2}>
           <div className="text-center mt-10 md:hidden">
             <Link to="/projects" className="btn-outline text-xs">
               View all projects <ArrowRight size={12} />
