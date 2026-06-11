@@ -5,6 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
+import heroBg from "@/assets/hero-bg.jpg";
 
 function FloatingParticles() {
   const count = 50;
@@ -66,13 +67,22 @@ function ThreeBackground() {
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col justify-end overflow-hidden pb-16 md:pb-20 px-6 md:px-16 lg:px-24">
+      {/* Background image */}
+      <div
+        className="absolute inset-0 -z-20 bg-cover bg-center"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      />
+      {/* Gradient overlay for legibility */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-background/80 to-background/40" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background/70 via-background/30 to-transparent" />
+
       {/* 3D Background */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10 opacity-60">
         <ThreeBackground />
       </div>
 
       {/* Ambient glow */}
-      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -z-10" />
+      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px] -z-10" />
 
       <div className="max-w-7xl mx-auto w-full">
         {/* Status badge */}
