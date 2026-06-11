@@ -4,72 +4,128 @@ import { useEffect, useState } from "react";
 export default function Loader() {
   const [done, setDone] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     const start = Date.now();
-    const duration = 1600;
+    const duration = 1800;
     let raf = 0;
     const tick = () => {
       const p = Math.min(1, (Date.now() - start) / duration);
       setProgress(p);
-      if (p < 1) raf = requestAnimationFrame(tick);
-      else setTimeout(() => setDone(true), 250);
+      if (p < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        setShowWelcome(true);
+        setTimeout(() => setDone(true), 700);
+      }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
+
+  const pct = Math.round(progress * 100);
+  // marquee words behind the pill
+  const words = ["DESIGN", "CRAFT", "CODE", "MOTION", "STORY", "DETAIL"];
 
   return (
     <AnimatePresence>
       {!done && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
-          className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center"
+          exit={{ opacity: 0, transition: { duration: 0.6, ease: [0.7, 0, 0.3, 1] } }}
+          className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center overflow-hidden"
         >
-          <div className="absolute inset-0 noise-overlay pointer-events-none" />
+          <div className="absolute inset-0 noise-overlay pointer-events-none opacity-60" />
 
+          {/* Marquee background text */}
+          <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none">
+            <motion.div
+              className="flex gap-12 whitespace-nowrap text-[18vw] md:text-[10vw] font-black tracking-tighter text-foreground/[0.06]"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ duration: 18, ease: "linear", repeat: Infinity }}
+            >
+              {[...words, ...words, ...words].map((w, i) => (
+                <span key={i}>{w} •</span>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Pill loader */}
+          <div className="relative">
+            {/* gradient glow ring */}
+            <motion.div
+              className="absolute -inset-[2px] rounded-full opacity-90 blur-[2px]"
+              style={{
+                background:
+                  "conic-gradient(from var(--angle, 0deg), hsl(var(--accent)), #a855f7, #ec4899, hsl(var(--accent)))",
+              }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3, ease: "linear", repeat: Infinity }}
+            />
+            <div className="relative rounded-full bg-background/95 backdrop-blur-xl px-10 py-5 min-w-[260px] flex items-center justify-center gap-5 shadow-2xl">
+              <AnimatePresence mode="wait">
+                {!showWelcome ? (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    className="flex items-center gap-4"
+                  >
+                    <span className="text-sm tracking-[0.3em] text-foreground font-medium">
+                      LOADING
+                    </span>
+                    <span className="text-xs tabular-nums text-muted-foreground w-9 text-right">
+                      {pct}%
+                    </span>
+                    <div className="h-2 w-14 bg-foreground/10 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-accent to-pink-400 origin-left rounded-full"
+                        style={{ scaleX: progress }}
+                      />
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.span
+                    key="welcome"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-sm tracking-[0.4em] text-foreground font-medium"
+                  >
+                    WELCOME
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* corner brand */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="relative text-center px-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="absolute top-6 left-6 text-xs font-bold tracking-tight text-foreground"
           >
-            <div className="overflow-hidden">
-              <motion.h1
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-                className="text-[18vw] md:text-[10vw] font-black leading-none tracking-tighter text-foreground"
-              >
-                AK<span className="text-accent">.</span>verse
-              </motion.h1>
-            </div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="mt-6 text-xs md:text-sm tracking-[0.3em] uppercase text-muted-foreground"
-            >
-              Designing experiences
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="mt-3 text-xs italic font-serif text-muted-foreground/70"
-            >
-              wait — something aesthetic is loading
-            </motion.p>
-
-            <div className="mt-10 h-px w-64 max-w-full mx-auto bg-border overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-accent via-yellow-500 to-pink-400 origin-left"
-                style={{ scaleX: progress }}
-              />
-            </div>
+            A<span className="text-accent">.</span>verse
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="absolute bottom-6 left-6 text-[10px] tracking-[0.3em] uppercase text-muted-foreground"
+          >
+            v2026 · portfolio
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="absolute bottom-6 right-6 text-[10px] tracking-[0.3em] uppercase text-muted-foreground italic font-serif"
+          >
+            something aesthetic
           </motion.div>
         </motion.div>
       )}
