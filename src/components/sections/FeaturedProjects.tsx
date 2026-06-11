@@ -100,12 +100,14 @@ function StickyCard({
                     {project.description}
                   </p>
                 </div>
-                <div className="mt-8 flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                  <span className="story-link">View Case Study</span>
-                  <ArrowUpRight
-                    size={14}
-                    className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                  />
+                <div className="mt-8">
+                  <span className="pill-cta">
+                    <span className="pill-cta-ring" />
+                    <span className="relative flex items-center gap-2 text-xs tracking-[0.3em] uppercase">
+                      View Case Study
+                      <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -117,8 +119,27 @@ function StickyCard({
 }
 
 export default function FeaturedProjects() {
+  const marquee = ["SELECTED WORK", "CASE STUDIES", "BUILT WITH CARE", "2025 — 2026"];
   return (
-    <section className="section-padding relative">
+    <section className="section-padding relative overflow-hidden">
+      {/* Marquee band */}
+      <div className="relative mb-10 md:mb-16 -mx-6 md:-mx-10 overflow-hidden">
+        <div className="border-y border-border/60 py-3 md:py-4 bg-foreground/[0.015]">
+          <motion.div
+            className="flex gap-10 whitespace-nowrap text-sm md:text-base font-medium tracking-[0.3em] uppercase text-muted-foreground"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 28, ease: "linear", repeat: Infinity }}
+          >
+            {[...marquee, ...marquee, ...marquee, ...marquee].map((w, i) => (
+              <span key={i} className="flex items-center gap-10">
+                {w}
+                <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block" />
+              </span>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
           <div className="flex items-end justify-between mb-16">
@@ -131,9 +152,12 @@ export default function FeaturedProjects() {
             </div>
             <Link
               to="/projects"
-              className="hidden md:flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors story-link"
+              className="hidden md:inline-flex pill-cta"
             >
-              View all <ArrowRight size={14} />
+              <span className="pill-cta-ring" />
+              <span className="relative flex items-center gap-2 text-xs tracking-[0.3em] uppercase">
+                View All <ArrowRight size={12} />
+              </span>
             </Link>
           </div>
         </ScrollReveal>
