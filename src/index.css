@@ -200,3 +200,46 @@ html {
   z-index: 9999;
   opacity: 0.4;
 }
+
+/* Moncy-style pill CTA with rotating gradient ring */
+.pill-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.6rem;
+  border-radius: 9999px;
+  background: hsl(var(--background) / 0.85);
+  color: hsl(var(--foreground));
+  isolation: isolate;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.pill-cta:hover { transform: translateY(-2px); }
+.pill-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 1.5px;
+  background: linear-gradient(135deg, hsl(var(--accent)), #a855f7 50%, #ec4899);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+.pill-cta-ring {
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(from 0deg, transparent 0%, hsl(var(--accent) / 0.6) 25%, transparent 50%);
+  animation: pill-spin 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+  filter: blur(8px);
+}
+.pill-cta:hover .pill-cta-ring { opacity: 1; }
+@keyframes pill-spin { to { transform: rotate(360deg); } }
