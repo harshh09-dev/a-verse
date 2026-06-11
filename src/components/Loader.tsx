@@ -52,18 +52,18 @@ export default function Loader() {
           </div>
 
           {/* Pill loader */}
-          <div className="relative">
+          <div className="relative rounded-full p-[1.5px] overflow-hidden">
             {/* gradient glow ring */}
             <motion.div
-              className="absolute -inset-[2px] rounded-full opacity-90 blur-[2px]"
+              className="absolute inset-[-50%]"
               style={{
                 background:
-                  "conic-gradient(from var(--angle, 0deg), hsl(var(--accent)), #a855f7, #ec4899, hsl(var(--accent)))",
+                  "conic-gradient(from 0deg, transparent 0deg, hsl(var(--accent)) 60deg, #ec4899 120deg, transparent 180deg, transparent 360deg)",
               }}
               animate={{ rotate: 360 }}
-              transition={{ duration: 3, ease: "linear", repeat: Infinity }}
+              transition={{ duration: 2.4, ease: "linear", repeat: Infinity }}
             />
-            <div className="relative rounded-full bg-background/95 backdrop-blur-xl px-10 py-5 min-w-[260px] flex items-center justify-center gap-5 shadow-2xl">
+            <div className="relative rounded-full bg-background/95 backdrop-blur-xl px-10 py-5 min-w-[260px] flex items-center justify-center gap-5">
               <AnimatePresence mode="wait">
                 {!showWelcome ? (
                   <motion.div
