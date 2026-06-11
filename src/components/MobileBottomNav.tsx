@@ -20,9 +20,9 @@ export default function MobileBottomNav() {
       initial={{ y: 80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.3, duration: 0.5 }}
-      className="md:hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1.5rem)] max-w-md"
+      className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-40"
     >
-      <div className="flex items-center justify-between bg-card/85 backdrop-blur-xl border border-border rounded-full px-2 py-2 shadow-2xl shadow-black/40">
+      <div className="flex items-center gap-1 bg-background/80 backdrop-blur-xl border border-border/80 rounded-full px-2 py-2 shadow-2xl shadow-black/60">
         {items.map((item) => {
           const active = isActive(item.href);
           const Icon = item.icon;
@@ -30,28 +30,23 @@ export default function MobileBottomNav() {
             <Link
               key={item.label}
               to={item.href}
-              className="relative flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-full"
+              aria-label={item.label}
+              className="relative w-11 h-11 flex items-center justify-center rounded-full"
             >
               {active && (
                 <motion.div
                   layoutId="bottom-nav-pill"
-                  className="absolute inset-0 bg-foreground/10 rounded-full"
+                  className="absolute inset-0 bg-accent rounded-full"
                   transition={{ type: "spring", stiffness: 400, damping: 32 }}
                 />
               )}
               <Icon
                 size={18}
+                strokeWidth={2}
                 className={`relative z-10 transition-colors ${
-                  active ? "text-foreground" : "text-muted-foreground"
+                  active ? "text-accent-foreground" : "text-muted-foreground"
                 }`}
               />
-              <span
-                className={`relative z-10 text-[10px] tracking-wide transition-colors ${
-                  active ? "text-foreground" : "text-muted-foreground"
-                }`}
-              >
-                {item.label}
-              </span>
             </Link>
           );
         })}
