@@ -170,47 +170,48 @@ export default function FeaturedProjects() {
           </div>
         </ScrollReveal>
 
-        {/* Mobile: stacked image cards */}
-        <div className="md:hidden space-y-5">
+        {/* Mobile: minimal editorial rows (no boxy cards) */}
+        <div className="md:hidden border-t border-border/60">
           {featured.map((project, i) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
+              transition={{ duration: 0.5, delay: i * 0.06 }}
+              className="border-b border-border/60"
             >
-              <Link to={`/projects/${project.id}`} className="group block">
-                <div className="relative rounded-2xl overflow-hidden bg-card border border-border">
-                  <div className="aspect-[4/5] overflow-hidden bg-muted relative">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-                    <span className="absolute top-4 left-4 font-serif italic text-xs text-muted-foreground tabular-nums">
-                      0{i + 1} / 0{featured.length}
-                    </span>
-                    <span className="absolute top-4 right-4 text-[10px] uppercase tracking-widest text-accent">
-                      {project.year}
-                    </span>
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
-                        {project.category}
-                      </p>
-                      <h3 className="text-3xl font-bold text-foreground leading-[1] mb-3">
-                        {project.title}
-                      </h3>
-                      <p className="text-xs text-secondary-foreground leading-relaxed line-clamp-2 mb-3">
-                        {project.description}
-                      </p>
-                      <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] text-foreground">
-                        Case Study <ArrowUpRight size={12} />
-                      </span>
-                    </div>
+              <Link to={`/projects/${project.id}`} className="block py-6 group">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-serif italic text-xs text-muted-foreground tabular-nums">
+                    0{i + 1} / 0{featured.length}
+                  </span>
+                  <span className="text-[10px] uppercase tracking-widest text-accent">
+                    {project.year}
+                  </span>
+                </div>
+                <div className="relative aspect-[16/10] overflow-hidden rounded-xl mb-4">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                </div>
+                <div className="flex items-end justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="text-4xl font-bold tracking-tight leading-[1] text-foreground mb-2">
+                      {project.title}
+                    </h3>
+                    <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                      {project.category}
+                    </p>
                   </div>
+                  <ArrowUpRight
+                    size={22}
+                    className="text-muted-foreground shrink-0 group-hover:text-accent group-hover:rotate-45 transition-all duration-500"
+                  />
                 </div>
               </Link>
             </motion.div>
