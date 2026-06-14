@@ -20,9 +20,11 @@ export default function MobileBottomNav() {
       initial={{ y: 80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.3, duration: 0.5 }}
-      className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-40"
+      className="md:hidden fixed left-1/2 -translate-x-1/2 z-50"
+      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
     >
-      <div className="flex items-center gap-1 bg-background/80 backdrop-blur-xl border border-border/80 rounded-full px-2 py-2 shadow-2xl shadow-black/60">
+      <div className="flex items-center gap-1 bg-background/85 backdrop-blur-xl border border-border/80 rounded-full px-1.5 py-1.5 shadow-2xl shadow-black/60">
+
         {items.map((item) => {
           const active = isActive(item.href);
           const Icon = item.icon;
@@ -31,7 +33,8 @@ export default function MobileBottomNav() {
               key={item.label}
               to={item.href}
               aria-label={item.label}
-              className="relative w-11 h-11 flex items-center justify-center rounded-full"
+              className="relative w-10 h-10 flex items-center justify-center rounded-full"
+
             >
               {active && (
                 <motion.div
