@@ -33,7 +33,8 @@ export default function MobileBottomNav() {
               key={item.label}
               to={item.href}
               aria-label={item.label}
-              className="relative w-11 h-11 flex items-center justify-center rounded-full"
+              className="relative w-10 h-10 flex items-center justify-center rounded-full"
+
             >
               {active && (
                 <motion.div
