@@ -164,8 +164,9 @@ html {
 
 /* Reserve space for the floating mobile bottom nav */
 @media (max-width: 767px) {
-  body { padding-bottom: 5.5rem; }
+  body { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 6.5rem); }
 }
+
 
 /* Snap carousel utilities */
 .snap-row {
