@@ -66,7 +66,7 @@ function ThreeBackground() {
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-end overflow-hidden pb-16 md:pb-20 px-6 md:px-16 lg:px-24">
+    <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden pt-28 md:pt-32 pb-20 md:pb-24 px-5 sm:px-8 md:px-14 lg:px-24">
       {/* Background image */}
       <div
         className="absolute inset-0 -z-20 bg-cover bg-center"
@@ -104,7 +104,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
         >
-          <h1 className="text-[18vw] md:text-[8vw] lg:text-[6.5vw] font-black leading-[0.9] tracking-tighter text-foreground mb-6">
+          <h1 className="text-[clamp(3.5rem,14vw,8rem)] md:text-[clamp(5rem,10vw,11rem)] lg:text-[clamp(6rem,9vw,13rem)] font-black leading-[0.88] tracking-[-0.04em] text-foreground mb-6">
             ANJALI
             <br />
             <span className="text-muted-foreground">KAMAL</span>
