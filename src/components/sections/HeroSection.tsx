@@ -104,11 +104,15 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
         >
-          <h1 className="text-[18vw] md:text-[8vw] lg:text-[6.5vw] font-black leading-[0.9] tracking-tighter text-foreground mb-6">
+          <h1
+            className="font-black leading-[0.88] tracking-[-0.04em] text-foreground mb-6"
+            style={{ fontSize: "clamp(3.5rem, 14vw, 11rem)" }}
+          >
             ANJALI
             <br />
             <span className="text-muted-foreground">KAMAL</span>
           </h1>
+
         </motion.div>
 
         {/* Subtitle + CTAs */}

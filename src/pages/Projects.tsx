@@ -104,13 +104,14 @@ export default function Projects() {
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <p className="section-label">Portfolio</p>
-            <h1 className="section-heading mb-4">
+            <h1 className="page-heading mb-5">
               All <span className="font-serif italic gradient-text">Projects</span>
             </h1>
-            <p className="text-sm text-muted-foreground max-w-lg mb-16">
+            <p className="body-text max-w-xl mb-14 md:mb-20">
               A curated collection of projects spanning full-stack development, system design, and creative technology.
             </p>
           </ScrollReveal>
+
 
           <div className="grid md:grid-cols-2 gap-6">
             {allProjects.map((project, i) => (

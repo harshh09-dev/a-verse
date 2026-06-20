@@ -87,15 +87,15 @@
   }
 
   .section-padding {
-    @apply px-5 md:px-16 lg:px-24 py-14 md:py-28;
+    @apply px-5 sm:px-8 md:px-16 lg:px-24 py-16 md:py-28 lg:py-32;
   }
 
   .glass-card {
-    @apply bg-card/60 backdrop-blur-sm border border-border rounded-2xl transition-all duration-500;
+    @apply bg-card/60 backdrop-blur-sm border border-border/70 rounded-2xl transition-all duration-500;
   }
 
   .glass-card:hover {
-    border-color: hsl(0 0% 20%);
+    @apply border-border;
   }
 
   .hover-lift {
@@ -103,16 +103,31 @@
   }
 
   .tag-pill {
-    @apply text-[10px] md:text-xs px-2.5 py-1 rounded-full bg-muted text-muted-foreground border border-border;
+    @apply text-[10px] md:text-[11px] px-2.5 py-1 rounded-full bg-muted/60 text-muted-foreground border border-border/70 tracking-wide;
   }
 
   .section-label {
-    @apply text-[10px] md:text-xs tracking-[0.3em] uppercase text-accent font-medium mb-3 md:mb-4;
+    @apply text-[10px] md:text-[11px] tracking-[0.32em] uppercase text-accent font-medium mb-4 md:mb-5;
   }
 
   .section-heading {
-    @apply text-[1.75rem] leading-[1.1] md:text-5xl lg:text-6xl font-bold tracking-tight;
+    font-size: clamp(1.9rem, 5.2vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    @apply font-bold;
   }
+
+  .page-heading {
+    font-size: clamp(2.2rem, 6.5vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    @apply font-bold;
+  }
+
+  .body-text {
+    @apply text-[13px] md:text-[15px] leading-relaxed text-secondary-foreground;
+  }
+
 
   .btn-primary {
     @apply inline-flex items-center gap-2 px-7 py-3.5 bg-foreground text-background font-medium text-sm rounded-full hover:bg-foreground/90 transition-all duration-300;

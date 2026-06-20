@@ -34,15 +34,16 @@ export default function Contact() {
         <div className="max-w-5xl mx-auto">
           <ScrollReveal>
             <p className="section-label">Get in Touch</p>
-            <h1 className="section-heading mb-4">
+            <h1 className="page-heading mb-5">
               Let's build something{" "}
               <span className="font-serif italic gradient-text">aesthetic</span>{" "}
               together
             </h1>
-            <p className="text-sm text-muted-foreground max-w-lg mb-16">
+            <p className="body-text max-w-xl mb-14 md:mb-20">
               Whether you have a project idea, want to collaborate, or just want to say hello — my inbox is always open.
             </p>
           </ScrollReveal>
+
 
           <div className="grid md:grid-cols-5 gap-12">
             {/* Form */}
