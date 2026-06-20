@@ -87,7 +87,7 @@
   }
 
   .section-padding {
-    @apply px-5 sm:px-8 md:px-14 lg:px-24 py-16 sm:py-20 md:py-28 lg:py-32;
+    @apply px-5 md:px-16 lg:px-24 py-14 md:py-28;
   }
 
   .glass-card {
@@ -111,15 +111,15 @@
   }
 
   .section-heading {
-    @apply text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold tracking-[-0.02em] leading-[1.05];
+    @apply text-[1.75rem] leading-[1.1] md:text-5xl lg:text-6xl font-bold tracking-tight;
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-foreground text-background font-medium text-sm rounded-full hover:bg-foreground/90 transition-all duration-300 active:scale-[0.97];
+    @apply inline-flex items-center gap-2 px-7 py-3.5 bg-foreground text-background font-medium text-sm rounded-full hover:bg-foreground/90 transition-all duration-300;
   }
 
   .btn-outline {
-    @apply inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 border border-border text-foreground font-medium text-sm rounded-full hover:border-foreground/40 hover:bg-card transition-all duration-300 active:scale-[0.97];
+    @apply inline-flex items-center gap-2 px-7 py-3.5 border border-border text-foreground font-medium text-sm rounded-full hover:border-foreground/40 hover:bg-card transition-all duration-300;
   }
 
   .divider-line {
@@ -133,25 +133,6 @@
 
 html {
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  letter-spacing: -0.005em;
-}
-
-img, video { max-width: 100%; height: auto; }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
 }
 
 ::-webkit-scrollbar {
