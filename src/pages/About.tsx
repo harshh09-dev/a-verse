@@ -54,11 +54,12 @@ export default function About() {
           {/* Hero */}
           <ScrollReveal>
             <p className="section-label">About</p>
-            <h1 className="section-heading mb-8">
+            <h1 className="page-heading mb-10">
               Not your typical{" "}
               <span className="font-serif italic gradient-text">developer bio</span>
             </h1>
           </ScrollReveal>
+
 
           {/* Story */}
           <div className="grid md:grid-cols-5 gap-12 mb-24">

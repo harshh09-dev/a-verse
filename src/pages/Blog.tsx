@@ -51,13 +51,14 @@ export default function BlogPage() {
         <div className="max-w-4xl mx-auto">
           <ScrollReveal>
             <p className="section-label">Blog</p>
-            <h1 className="section-heading mb-4">
+            <h1 className="page-heading mb-5">
               Thoughts & <span className="font-serif italic gradient-text">Insights</span>
             </h1>
-            <p className="text-sm text-muted-foreground mb-16">
+            <p className="body-text mb-14 md:mb-20">
               On software engineering, design, and creative technology.
             </p>
           </ScrollReveal>
+
 
           <div className="space-y-4">
             {posts.map((post, i) => (
